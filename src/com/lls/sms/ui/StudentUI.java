@@ -112,6 +112,7 @@ public class StudentUI extends JFrame {
                     JOptionPane.showMessageDialog(null, "成功退出", "操作提示", JOptionPane.PLAIN_MESSAGE);
                     totalPageNum = 0;
                     currentPage = 1;
+                    noTransData.clear();
                     StudentUI.this.dispose();
                     new UserUI();
                 } else if (response == 1) {

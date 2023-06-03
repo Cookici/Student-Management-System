@@ -24,7 +24,6 @@ import java.net.URL;
 
 public class UserUI extends JFrame {
 
-
     private UserService userService = new UserServiceImpl();
     private JLabel titleLabel = new JLabel("用户登录", JLabel.CENTER);
     private SpringLayout springLayout = new SpringLayout();
@@ -44,6 +43,8 @@ public class UserUI extends JFrame {
         JdbcUtil.commitAndClose();
 
         Container container = getContentPane();
+
+
         titleLabel.setFont(new Font("华文行楷", Font.PLAIN, 40));
         titleLabel.setPreferredSize(new Dimension(0, 80));
 
@@ -79,12 +80,11 @@ public class UserUI extends JFrame {
         });
 
 
-
         centerPanel.add(enrollBtn);
         enrollBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new EnrollDialog(UserUI.this,userService);
+                new EnrollDialog(UserUI.this, userService);
             }
         });
 
@@ -92,9 +92,9 @@ public class UserUI extends JFrame {
         checkBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if(e.getStateChange()==ItemEvent.SELECTED){//被选中
-                    passwordText.setEchoChar((char)0);
-                }else{
+                if (e.getStateChange() == ItemEvent.SELECTED) {//被选中
+                    passwordText.setEchoChar((char) 0);
+                } else {
                     passwordText.setEchoChar('•');
                 }
             }
@@ -137,13 +137,13 @@ public class UserUI extends JFrame {
         container.add(centerPanel, BorderLayout.CENTER);
 
 
-
         URL resource = UserUI.class.getClassLoader().getResource("show.jpg");
         Image image = null;
         if (resource != null) {
             image = new ImageIcon(resource).getImage();
         }
         setIconImage(image);
+
 
         setSize(600, 400);
         setLocationRelativeTo(null);
