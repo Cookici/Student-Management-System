@@ -2,6 +2,7 @@ package com.lls.sms.test;
 
 import com.lls.sms.service.UserService;
 import com.lls.sms.service.impl.UserServiceImpl;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -20,27 +21,28 @@ public class UserTest {
 
     @Test
     public void testEnroll() {
-
-
+        int enroll = userService.enroll("lrh123456", "lrh123456", "admin");
+        Assert.assertNotEquals(0, enroll);
     }
 
     @Test
     public void testLogin() {
-
+        boolean login = userService.login("lrh123456", "lrh123456");
+        Assert.assertNotEquals(false, login);
 
     }
 
 
     @Test
     public void testUsernameIfExist() {
-
-
+        boolean exist = userService.usernameIfExist("lrh123456");
+        Assert.assertNotEquals(true, exist);
     }
 
     @Test
     public void testGetAuthority() {
-
-
+        String authority = userService.getAuthority("lrh123456");
+        Assert.assertEquals("admin", authority);
     }
 
 }
