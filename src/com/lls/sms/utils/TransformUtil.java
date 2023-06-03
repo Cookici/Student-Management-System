@@ -28,7 +28,7 @@ public class TransformUtil {
         TransformUtil.studentList = studentList;
         if (studentList != null) {
             for (int i = 1; i <= studentList.size(); i++) {
-                // 创建一个Vector<Object>对象来保存每个学生的姓名和性别
+                // 创建一个Vector<Object>对象来保存每个学生的姓名和性别等属性
                 Vector<Object> studentVector = new Vector<>();
                 studentVector.add(i);
                 studentVector.add(studentList.get(i - 1).getId());

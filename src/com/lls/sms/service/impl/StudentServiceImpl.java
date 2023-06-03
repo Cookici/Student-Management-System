@@ -31,13 +31,16 @@ public class StudentServiceImpl implements StudentService {
         Map<Integer, List<Student>> pageAndStudentList = new HashMap<>();
         try {
             studentList = studentDao.selectStudentListByNameLike(msg);
+            //排序后的学生数据
             studentList = SortUtil.sortStudentListByOrder(studentList, subject, order);
+            //获取每页22个学生 一共有多少页
             if (studentList.size() % 22 == 0) {
                 pageNum = studentList.size() / 22;
             } else {
                 pageNum = studentList.size() / 22 + 1;
             }
 
+            //页数对应的数据
             for (int i = 0; i < pageNum; i++) {
                 int fromIndex = i * 22;
                 int toIndex = Math.min((i + 1) * 22, studentList.size());
@@ -45,6 +48,7 @@ public class StudentServiceImpl implements StudentService {
                 List<Student> group = studentList.subList(fromIndex, toIndex);
                 pageAndStudentList.put(i, group);
             }
+
         } catch (Exception e) {
             JdbcUtil.rollbackAndClose();
             e.printStackTrace();
@@ -53,23 +57,6 @@ public class StudentServiceImpl implements StudentService {
         JdbcUtil.commitAndClose();
         return pageAndStudentList;
     }
-
-    @Override
-    public Integer studentsNum() {
-        List<Student> studentList = null;
-        int total = 0;
-        try {
-            studentList = studentDao.getTotalStudent();
-            total = studentList.size();
-        } catch (Exception e) {
-            JdbcUtil.rollbackAndClose();
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        JdbcUtil.commitAndClose();
-        return total;
-    }
-
 
     @Override
     public Student getStudent(Long id) {

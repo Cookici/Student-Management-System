@@ -27,13 +27,6 @@ public interface StudentService {
 
 
     /**
-     * 获取学生个数
-     * @return
-     */
-    Integer studentsNum();
-
-
-    /**
      * 根据学生id获取信息
      * @param id
      * @return
