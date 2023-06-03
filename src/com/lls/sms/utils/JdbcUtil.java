@@ -27,9 +27,10 @@ public class JdbcUtil {
     private static DruidDataSource druidDataSource;
 
 
-    private JdbcUtil(){}
+    private JdbcUtil() {
+    }
 
-    static{
+    static {
 
         try {
             Properties properties = new Properties();
@@ -49,7 +50,7 @@ public class JdbcUtil {
      *
      * @return 返回null为连接数据池失败
      */
-    public static Connection  getConnection() {
+    public static Connection getConnection() {
 
         Connection conn = THREAD_LOCAL.get();
         if (conn == null) {
@@ -95,7 +96,7 @@ public class JdbcUtil {
     /**
      * 回滚事务，并关闭连接
      */
-    public static void rollbackAndClose(){
+    public static void rollbackAndClose() {
         Connection connection = THREAD_LOCAL.get();
         if (connection != null) { // 如果不等于null，说明 之前使用过连接，操作过数据库
             try {
@@ -114,8 +115,6 @@ public class JdbcUtil {
         }
         THREAD_LOCAL.remove();
     }
-
-
 
 
 }

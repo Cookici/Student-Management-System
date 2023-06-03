@@ -5,6 +5,7 @@ import com.lls.sms.service.UserService;
 import com.lls.sms.service.impl.UserServiceImpl;
 import com.lls.sms.ui.dialog.EnrollDialog;
 import com.lls.sms.ui.dialog.LoginFailDialog;
+import com.lls.sms.utils.JdbcUtil;
 
 
 import javax.swing.*;
@@ -38,8 +39,10 @@ public class UserUI extends JFrame {
     private JCheckBox checkBox = new JCheckBox("显示密码");
 
     public UserUI() {
-
         super("学生管理系统");
+
+        JdbcUtil.commitAndClose();
+
         Container container = getContentPane();
         titleLabel.setFont(new Font("华文行楷", Font.PLAIN, 40));
         titleLabel.setPreferredSize(new Dimension(0, 80));

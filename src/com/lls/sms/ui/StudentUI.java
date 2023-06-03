@@ -43,8 +43,6 @@ public class StudentUI extends JFrame {
 
     Map<Integer, List<Student>> searchStudentListAndPage = new HashMap<>();
 
-    private static final Integer TOTAL_STUDENTS = studentService.studentsNum();
-
     private static Vector<Vector<Object>> noTransData = new Vector<>();
 
     private JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -293,8 +291,9 @@ public class StudentUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 noTransData.clear();
-                pageLabel.setText("当前第" + totalPageNum + "页" + "/共有 " + totalPageNum + "页");
-                setTableData(totalPageNum,noTransData);
+                currentPage = totalPageNum;
+                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
+                setTableData(currentPage,noTransData);
             }
         });
 
@@ -339,6 +338,7 @@ public class StudentUI extends JFrame {
 
     }
 
+    //执行操作后设置表格中的数据
     private void setTableData(Integer currentPage, Vector<Vector<Object>> noTransData) {
         Vector<Vector<Object>> data = TransformUtil.listToVector(noTransData, searchStudentListAndPage.get(currentPage - 1));
         DefaultTableModel studentTableModel = StudentTableModel.assembleTableModel(data);
@@ -383,6 +383,7 @@ public class StudentUI extends JFrame {
 
     private void initLayoutNorth(Container container) {
         northPanel.add(logout);
+        //权限限制可以获得操作
         if ("admin".equals(authority)) {
             northPanel.add(addBtn);
             northPanel.add(updateBtn);

@@ -1,6 +1,7 @@
 package com.lls.sms;
 
 import com.lls.sms.ui.UserUI;
+import com.lls.sms.utils.JdbcUtil;
 
 /**
  * @ProjectName: Student Management System
@@ -12,6 +13,10 @@ import com.lls.sms.ui.UserUI;
  */
 
 public class Main {
+
+    static {
+        JdbcUtil.getConnection();
+    }
 
     public static void main(String[] args) {
 

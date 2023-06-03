@@ -39,9 +39,9 @@ public class SortUtil {
             }
         }
         if ("总分".equals(subject)) {
-            if ("降序".equals(order)) {
+            if ("升序".equals(order)) {
                 sortList.sort((o1, o2) -> o1.getMath() + o1.getComputer() - o2.getMath() - o2.getComputer());
-            } else if ("升序".equals(order)) {
+            } else if ("降序".equals(order)) {
                 sortList.sort((o1, o2) -> o2.getMath() + o2.getComputer() - o1.getMath() - o1.getComputer());
             }
         }
