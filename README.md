@@ -1,5 +1,8 @@
 # Student-Management-System
-JDBC Swing Druid MySQL Junit
+
+MySQL 
+
+JDBC Swing Druid Junit
 
 ## 使用了Druid连接池连接MySQL数据库
 ## 基于SwingUI开发的人机交互界面
