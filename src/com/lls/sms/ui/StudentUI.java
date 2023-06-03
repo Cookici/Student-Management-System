@@ -79,9 +79,6 @@ public class StudentUI extends JFrame {
     private JButton pageBtn = new JButton("跳转");
     private StudentTable studentTable = new StudentTable();
 
-    SystemTray systemTray;
-    TrayIcon trayIcon;
-
     public StudentUI(String authority) {
         super("学生管理系统");
 
