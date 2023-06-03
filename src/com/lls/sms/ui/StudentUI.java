@@ -10,7 +10,6 @@ import com.lls.sms.ui.dialog.AddStudentDialog;
 import com.lls.sms.ui.dialog.DeleteStudentDialog;
 import com.lls.sms.ui.dialog.UpdateStudentDialog;
 import com.lls.sms.utils.DimensionUtil;
-import com.lls.sms.utils.SortUtil;
 import com.lls.sms.utils.TransformUtil;
 
 import javax.swing.*;

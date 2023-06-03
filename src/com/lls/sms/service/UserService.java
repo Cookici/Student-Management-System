@@ -1,6 +1,5 @@
 package com.lls.sms.service;
 
-import com.lls.sms.entity.User;
 
 /**
  * @ProjectName: Student Management System

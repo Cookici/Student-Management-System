@@ -3,7 +3,6 @@ package com.lls.sms.test;
 
 import com.lls.sms.service.StudentService;
 import com.lls.sms.service.impl.StudentServiceImpl;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**

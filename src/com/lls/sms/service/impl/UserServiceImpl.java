@@ -4,10 +4,8 @@ import com.lls.sms.dao.UserDao;
 import com.lls.sms.dao.impl.UserDaoImpl;
 import com.lls.sms.entity.User;
 import com.lls.sms.service.UserService;
-import com.lls.sms.ui.dialog.EnrollDialog;
 import com.lls.sms.utils.JdbcUtil;
 
-import javax.swing.*;
 
 
 /**

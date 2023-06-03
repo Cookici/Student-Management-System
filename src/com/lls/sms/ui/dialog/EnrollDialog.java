@@ -25,7 +25,7 @@ public class EnrollDialog extends JDialog {
     private JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20));
     private JLabel usernameLabel = new JLabel("用户名：");
     private JTextField usernameText = new JTextField();
-    private JLabel usernameMsgLabel = new JLabel("字母数字下划线合法且字母开头,不超过8位");
+    private JLabel usernameMsgLabel = new JLabel("由字母数字下划线组成且开头必须是字母,不超过8位");
     private JLabel passwordLabel = new JLabel("密码：");
     private JTextField passwordText = new JTextField();
     private JLabel passwordMsgLabel = new JLabel("字母和数字构成,不能超过11位");
@@ -60,7 +60,7 @@ public class EnrollDialog extends JDialog {
         usernameText.setPreferredSize(new Dimension(200, 30));
         jPanel.add(usernameText);
 
-        usernameMsgLabel.setPreferredSize(new Dimension(300, 30));
+        usernameMsgLabel.setPreferredSize(new Dimension(350, 30));
         jPanel.add(usernameMsgLabel);
 
         passwordLabel.setPreferredSize(new Dimension(80, 30));

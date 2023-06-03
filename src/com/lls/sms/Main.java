@@ -1,6 +1,5 @@
 package com.lls.sms;
 
-import com.lls.sms.ui.StudentUI;
 import com.lls.sms.ui.UserUI;
 
 /**
@@ -19,7 +18,6 @@ public class Main {
         new UserUI();
 
     }
-
 
 
 }
