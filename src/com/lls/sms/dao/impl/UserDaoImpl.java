@@ -22,11 +22,8 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao{
 
     @Override
     public User getUser(String username){
-        return super.queryForOne("select password,authority from t_user where username = ?",username);
+        return super.queryForOne("select username,password,authority from t_user where username = ?",username);
     }
 
-    @Override
-    public User getUserByName(String username){
-        return super.queryForOne("select username,password,authority from t_user where username = ?", username);
-    }
+
 }

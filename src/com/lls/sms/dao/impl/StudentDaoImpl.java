@@ -45,10 +45,6 @@ public class StudentDaoImpl extends BaseDao<Student> implements StudentDao {
         return super.update("insert into t_student values(null,?,?,?,?,?,?)", student.getName(), student.getSex(), student.getAge(), student.getMajor(), student.getMath(), student.getComputer());
     }
 
-    @Override
-    public List<Student> getTotalStudent() {
-        return super.queryForList("select * from t_student");
-    }
 
 
 }

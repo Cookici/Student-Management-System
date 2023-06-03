@@ -18,7 +18,6 @@ public class UserTest {
     private UserService userService = new UserServiceImpl();
 
 
-
     @Test
     public void testEnroll() {
 

@@ -18,9 +18,6 @@ public interface StudentService {
 
     /**
      * 根据ui中的信息获取指定学生列表（搜索框 页码）
-     * @param msg
-     * @param order
-     * @return
      */
 
     Map<Integer, List<Student>> getSearchStudentListAndPage(String msg, String subject, String order);
@@ -28,30 +25,21 @@ public interface StudentService {
 
     /**
      * 根据学生id获取信息
-     * @param id
-     * @return
      */
     Student getStudent(Long id);
 
     /**
      * 根据学生id修改学生
-     * @param id
-     * @param student
-     * @return
      */
     int updateStudent(Long id,Student student);
 
     /**
      * 根据学生id删除学生
-     * @param id
-     * @return
      */
     int deleteStudent(Long id);
 
     /**
      * 添加学生 自增主键
-     * @param student
-     * @return
      */
     int insertStudent(Student student);
 

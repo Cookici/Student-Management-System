@@ -13,14 +13,25 @@ package com.lls.sms.service;
 public interface UserService {
 
 
-    int enroll(String username,String password,String authority);
+    /**
+     * 注册
+     */
+    int enroll(String username, String password, String authority);
 
 
-    boolean login(String username,String password);
+    /**
+     * 登录
+     */
+    boolean login(String username, String password);
 
-
+    /**
+     * 判断用户是否存在
+     */
     boolean usernameIfExist(String username);
 
+    /**
+     * 获取权限
+     */
     String getAuthority(String username);
 
 }

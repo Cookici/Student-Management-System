@@ -39,9 +39,9 @@ public class UpdateStudentDialog extends JDialog {
 
     private JButton updateBtn = new JButton("修改");
 
-    public UpdateStudentDialog(StudentUI studentUI, StudentService studentService) {
+    public UpdateStudentDialog(StudentUI studentUi, StudentService studentService) {
 
-        super(studentUI, "修改学生", true);
+        super(studentUi, "修改学生", true);
 
         idLabel.setPreferredSize(new Dimension(80, 30));
         jPanel.add(idLabel);

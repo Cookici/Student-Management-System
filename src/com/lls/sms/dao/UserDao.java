@@ -15,24 +15,14 @@ public interface UserDao {
 
     /**
      * 注册
-     * @param user
-     * @return
      */
     int insertUser(User user);
 
     /**
-     * 登录
-     * @param username
-     * @return
+     * 登录和检测用户是否存在
      */
     User getUser(String username);
 
-    /**
-     * 检测是否存在相同用户名
-     * @param username
-     * @return
-     */
-    User getUserByName(String username);
 
 
 }

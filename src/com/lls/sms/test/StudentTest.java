@@ -16,7 +16,6 @@ import org.junit.Test;
 
 public class StudentTest {
 
-
     private StudentService studentService = new StudentServiceImpl();
 
     @Test

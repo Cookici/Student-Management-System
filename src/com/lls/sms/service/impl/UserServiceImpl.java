@@ -7,7 +7,6 @@ import com.lls.sms.service.UserService;
 import com.lls.sms.utils.JdbcUtil;
 
 
-
 /**
  * @ProjectName: Student Management System
  * @Package: com.lls.sms.service.impl
@@ -56,7 +55,7 @@ public class UserServiceImpl implements UserService {
     public boolean usernameIfExist(String username) {
         User user = null;
         try {
-            user = userDao.getUserByName(username);
+            user = userDao.getUser(username);
         } catch (Exception e) {
             JdbcUtil.rollbackAndClose();
             e.printStackTrace();

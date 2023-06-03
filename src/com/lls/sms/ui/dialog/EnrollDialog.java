@@ -1,6 +1,5 @@
 package com.lls.sms.ui.dialog;
 
-import com.lls.sms.dao.UserDao;
 import com.lls.sms.service.UserService;
 import com.lls.sms.ui.UserUI;
 
