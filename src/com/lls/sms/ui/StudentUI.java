@@ -341,6 +341,9 @@ public class StudentUI extends JFrame {
                 int response = JOptionPane.showConfirmDialog(null, "你确定要退出当前账户🐎？", "确认注销操作", JOptionPane.YES_NO_OPTION);
                 if (response == 0) {
                     JOptionPane.showMessageDialog(null, "成功退出", "操作提示", JOptionPane.PLAIN_MESSAGE);
+                    subject = getSelectText(subjectPanel);
+                    sort = getSelectText(sortPanel);
+                    message = "";
                     totalPageNum = 0;
                     currentPage = 1;
                     noTransData.clear();
