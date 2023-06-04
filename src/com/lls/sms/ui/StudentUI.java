@@ -35,15 +35,12 @@ public class StudentUI extends JFrame {
     private static Integer currentPage = 1;
     private static String authority = "user";
     private static String message = "";
-
     private static String subject = "总分";
     private static String sort = "升序";
-
     private static Integer totalPageNum = 0;
-
     Map<Integer, List<Student>> searchStudentListAndPage = new HashMap<>();
-
     private static Vector<Vector<Object>> noTransData = new Vector<>();
+
 
     private JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JButton logout = new JButton("注销");
@@ -89,209 +86,60 @@ public class StudentUI extends JFrame {
         //初始化操作组件
         initLayoutNorth(container);
 
-        subject = getSelectText(subjectPanel);
-
-        sort = getSelectText(sortPanel);
-
-
-        //设置JTable
-        initLayoutCenter(subject, sort, container);
+        //设置初始JTable
+        initLayoutCenter(container);
 
         //初始化页数组件
         initLayoutSouth(container);
 
-
-        pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
-
         //注销
-        logout.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int response = JOptionPane.showConfirmDialog(null, "你确定要退出当前账户🐎？", "确认注销操作", JOptionPane.YES_NO_OPTION);
-                if (response == 0) {
-                    JOptionPane.showMessageDialog(null, "成功退出", "操作提示", JOptionPane.PLAIN_MESSAGE);
-                    totalPageNum = 0;
-                    currentPage = 1;
-                    noTransData.clear();
-                    StudentUI.this.dispose();
-                    new UserUI();
-                } else if (response == 1) {
-                    JOptionPane.showMessageDialog(null, "取消退出", "操作提示", JOptionPane.PLAIN_MESSAGE);
-                }
-            }
-        });
+        logoutEvent();
 
         //下一页
-        nextBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                noTransData.clear();
-                currentPage++;
-                if (currentPage <= totalPageNum) {
-                    pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
-                    setTableData(currentPage, noTransData);
-                } else {
-                    currentPage = totalPageNum;
-                    JOptionPane.showMessageDialog(null, "没有下一页", "操作错误", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+        nextPageEvent();
 
         //上一页
-        preBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                noTransData.clear();
-                currentPage--;
-                if (currentPage >= 1) {
-                    pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
-                    setTableData(currentPage, noTransData);
-                } else {
-                    currentPage = 1;
-                    JOptionPane.showMessageDialog(null, "没有上一页", "操作错误", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+        prePgeEvent();
 
         //模糊查询
-        searchBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                noTransData.clear();
-                message = searchText.getText();
-                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
-                totalPageNum = 0;
-                for (Map.Entry<Integer, List<Student>> entry : searchStudentListAndPage.entrySet()) {
-                    totalPageNum++;
-                }
-                if (totalPageNum != 0) {
-                    pageLabel.setText("当前第" + 1 + "页" + "/共有 " + totalPageNum + "页");
-                    currentPage = 1;
-                    setTableData(1, noTransData);
-                } else {
-                    totalPageNum = 1;
-                    currentPage = 1;
-                    DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
-                    model.setRowCount(0); // 将行数设置为0，清除表格数据
-                    model.fireTableDataChanged();
-                    studentTable.setModel(model);
-                    pageLabel.setText("当前第" + 1 + "页" + "/共有 " + 1 + "页");
-                    JOptionPane.showMessageDialog(null, "没有查询到用户", "提示", JOptionPane.PLAIN_MESSAGE);
-                }
-            }
-        });
+        likeSearchEvent();
 
 
         //学科排序选择
-        ActionListener actionListenerSubject = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                noTransData.clear();
-                JRadioButton selectedRadioButton = (JRadioButton) e.getSource();
-                subject = selectedRadioButton.getText();
-                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
-                currentPage = 1;
-                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
-                setTableData(1, noTransData);
-            }
-        };
-        mathRadio.addActionListener(actionListenerSubject);
-        computerRadio.addActionListener(actionListenerSubject);
-        tatolRadio.addActionListener(actionListenerSubject);
-
-
         //成绩排序选择
-        ActionListener actionListenerSort = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                noTransData.clear();
-                JRadioButton selectedRadioButton = (JRadioButton) e.getSource();
-                sort = selectedRadioButton.getText();
-                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
-                currentPage = 1;
-                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
-                setTableData(1, noTransData);
-            }
-        };
-        upRadio.addActionListener(actionListenerSort);
-        downRadio.addActionListener(actionListenerSort);
-        originalRadio.addActionListener(actionListenerSort);
+        listenerSubjectAndSort();
 
 
         //添
-        addBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AddStudentDialog(StudentUI.this, studentService);
-                noTransData.clear();
-                totalPageNum = 0;
-                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
-                for (Map.Entry<Integer, List<Student>> entry : searchStudentListAndPage.entrySet()) {
-                    totalPageNum++;
-                }
-                currentPage = totalPageNum;
-                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
-                setTableData(currentPage, noTransData);
-            }
-        });
+        addStudentEvent();
 
 
         //改
-        updateBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new UpdateStudentDialog(StudentUI.this, studentService);
-                noTransData.clear();
-                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
-                setTableData(currentPage, noTransData);
-            }
-
-        });
+        updateStudentEvent();
 
 
         //删
-        deleteBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new DeleteStudentDialog(StudentUI.this, studentService);
-                noTransData.clear();
-                totalPageNum = 0;
-                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
-                for (Map.Entry<Integer, List<Student>> entry : searchStudentListAndPage.entrySet()) {
-                    totalPageNum++;
-                }
-                currentPage = totalPageNum;
-                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
-                setTableData(currentPage, noTransData);
-            }
-        });
+        deleteStudentEvent();
 
 
         //首页
-        firstBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                noTransData.clear();
-                currentPage = 1;
-                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
-                setTableData(currentPage, noTransData);
-            }
-        });
+        turnToLastOrFirstPageEvent(firstBtn, 1);
 
 
         //末页
-        lastBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                noTransData.clear();
-                currentPage = totalPageNum;
-                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
-                setTableData(currentPage, noTransData);
-            }
-        });
+        turnToLastOrFirstPageEvent(lastBtn, totalPageNum);
 
 
         //跳转
+        turnToAssignPageEvent();
+
+
+        //设置图标和界面大小
+        initFrame();
+
+    }
+
+    private void turnToAssignPageEvent() {
         pageText.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -324,11 +172,185 @@ public class StudentUI extends JFrame {
                 }
             }
         });
+    }
+
+    private void turnToLastOrFirstPageEvent(JButton button, Integer pageNum) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                noTransData.clear();
+                currentPage = pageNum;
+                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
+                setTableData(currentPage, noTransData);
+            }
+        });
+    }
 
 
-        //设置图标和界面大小
-        iconAndInterfaceSizeSetting();
+    private void deleteStudentEvent() {
+        deleteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new DeleteStudentDialog(StudentUI.this, studentService);
+                noTransData.clear();
+                totalPageNum = 0;
+                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
+                for (Map.Entry<Integer, List<Student>> entry : searchStudentListAndPage.entrySet()) {
+                    totalPageNum++;
+                }
+                currentPage = totalPageNum;
+                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
+                setTableData(currentPage, noTransData);
+            }
+        });
+    }
 
+    private void updateStudentEvent() {
+        updateBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UpdateStudentDialog(StudentUI.this, studentService);
+                noTransData.clear();
+                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
+                setTableData(currentPage, noTransData);
+            }
+
+        });
+    }
+
+    private void addStudentEvent() {
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddStudentDialog(StudentUI.this, studentService);
+                noTransData.clear();
+                totalPageNum = 0;
+                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
+                for (Map.Entry<Integer, List<Student>> entry : searchStudentListAndPage.entrySet()) {
+                    totalPageNum++;
+                }
+                currentPage = totalPageNum;
+                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
+                setTableData(currentPage, noTransData);
+            }
+        });
+    }
+
+    private void listenerSubjectAndSort() {
+        ActionListener actionListenerSubject = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                noTransData.clear();
+                JRadioButton selectedRadioButton = (JRadioButton) e.getSource();
+                subject = selectedRadioButton.getText();
+                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
+                currentPage = 1;
+                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
+                setTableData(1, noTransData);
+            }
+        };
+        mathRadio.addActionListener(actionListenerSubject);
+        computerRadio.addActionListener(actionListenerSubject);
+        tatolRadio.addActionListener(actionListenerSubject);
+
+
+        ActionListener actionListenerSort = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                noTransData.clear();
+                JRadioButton selectedRadioButton = (JRadioButton) e.getSource();
+                sort = selectedRadioButton.getText();
+                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
+                currentPage = 1;
+                pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
+                setTableData(1, noTransData);
+            }
+        };
+        upRadio.addActionListener(actionListenerSort);
+        downRadio.addActionListener(actionListenerSort);
+        originalRadio.addActionListener(actionListenerSort);
+    }
+
+    private void likeSearchEvent() {
+        searchBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                noTransData.clear();
+                message = searchText.getText();
+                searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
+                totalPageNum = 0;
+                for (Map.Entry<Integer, List<Student>> entry : searchStudentListAndPage.entrySet()) {
+                    totalPageNum++;
+                }
+                if (totalPageNum != 0) {
+                    pageLabel.setText("当前第" + 1 + "页" + "/共有 " + totalPageNum + "页");
+                    currentPage = 1;
+                    setTableData(1, noTransData);
+                } else {
+                    totalPageNum = 1;
+                    currentPage = 1;
+                    DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+                    model.setRowCount(0); // 将行数设置为0，清除表格数据
+                    model.fireTableDataChanged();
+                    studentTable.setModel(model);
+                    pageLabel.setText("当前第" + 1 + "页" + "/共有 " + 1 + "页");
+                    JOptionPane.showMessageDialog(null, "没有查询到用户", "提示", JOptionPane.PLAIN_MESSAGE);
+                }
+            }
+        });
+    }
+
+    private void prePgeEvent() {
+        preBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                noTransData.clear();
+                currentPage--;
+                if (currentPage >= 1) {
+                    pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
+                    setTableData(currentPage, noTransData);
+                } else {
+                    currentPage = 1;
+                    JOptionPane.showMessageDialog(null, "没有上一页", "操作错误", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    }
+
+    private void nextPageEvent() {
+        nextBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                noTransData.clear();
+                currentPage++;
+                if (currentPage <= totalPageNum) {
+                    pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
+                    setTableData(currentPage, noTransData);
+                } else {
+                    currentPage = totalPageNum;
+                    JOptionPane.showMessageDialog(null, "没有下一页", "操作错误", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    }
+
+    private void logoutEvent() {
+        logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(null, "你确定要退出当前账户🐎？", "确认注销操作", JOptionPane.YES_NO_OPTION);
+                if (response == 0) {
+                    JOptionPane.showMessageDialog(null, "成功退出", "操作提示", JOptionPane.PLAIN_MESSAGE);
+                    totalPageNum = 0;
+                    currentPage = 1;
+                    noTransData.clear();
+                    StudentUI.this.dispose();
+                    new UserUI();
+                } else if (response == 1) {
+                    JOptionPane.showMessageDialog(null, "取消退出", "操作提示", JOptionPane.PLAIN_MESSAGE);
+                }
+            }
+        });
     }
 
     //执行操作后设置表格中的数据
@@ -339,7 +361,11 @@ public class StudentUI extends JFrame {
         studentTable.renderRuler();
     }
 
-    private void initLayoutCenter(String subject, String sort, Container container) {
+    private void initLayoutCenter(Container container) {
+
+        subject = getSelectText(subjectPanel);
+
+        sort = getSelectText(sortPanel);
 
         searchStudentListAndPage = studentService.getSearchStudentListAndPage(message, subject, sort);
 
@@ -365,6 +391,7 @@ public class StudentUI extends JFrame {
         southPanel.add(firstBtn);
         southPanel.add(preBtn);
         southPanel.add(pageLabel);
+        pageLabel.setText("当前第" + currentPage + "页" + "/共有 " + totalPageNum + "页");
         southPanel.add(nextBtn);
         southPanel.add(lastBtn);
         pageText.setPreferredSize(new Dimension(30, 20));
@@ -407,8 +434,7 @@ public class StudentUI extends JFrame {
     }
 
 
-    private void iconAndInterfaceSizeSetting() {
-
+    private void initFrame() {
 
         URL resource = StudentUI.class.getClassLoader().getResource("show.jpg");
         Image image = null;

@@ -5,8 +5,6 @@ import com.lls.sms.service.UserService;
 import com.lls.sms.service.impl.UserServiceImpl;
 import com.lls.sms.ui.dialog.EnrollDialog;
 import com.lls.sms.ui.dialog.LoginFailDialog;
-import com.lls.sms.utils.JdbcUtil;
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +22,7 @@ import java.net.URL;
 
 public class UserUI extends JFrame {
 
+
     private UserService userService = new UserServiceImpl();
     private JLabel titleLabel = new JLabel("用户登录", JLabel.CENTER);
     private SpringLayout springLayout = new SpringLayout();
@@ -34,61 +33,35 @@ public class UserUI extends JFrame {
     private JPasswordField passwordText = new JPasswordField();
     private JButton loginBtn = new JButton("登录");
     private JButton enrollBtn = new JButton("注册");
-
     private JCheckBox checkBox = new JCheckBox("显示密码");
 
     public UserUI() {
-        super("学生管理系统");
 
-        JdbcUtil.commitAndClose();
+        super("学生管理系统");
 
         Container container = getContentPane();
 
+        //初始化组件属性
+        initializeComponentProperties();
 
-        titleLabel.setFont(new Font("华文行楷", Font.PLAIN, 40));
-        titleLabel.setPreferredSize(new Dimension(0, 80));
+        //登录
+        loginEvent();
 
-        Font other = new Font("楷体", Font.PLAIN, 20);
+        //注册
+        enrollEvent();
 
-        usernameText.setPreferredSize(new Dimension(250, 30));
+        //记住密码
+        rememberMeEvent();
 
-        passwordText.setPreferredSize(new Dimension(250, 30));
+        //初始化布局
+        initLayout(container);
 
-        loginBtn.setFont(other);
-        enrollBtn.setFont(other);
+        //初始化窗口
+        initFrame();
 
-        centerPanel.add(usernameLabel);
-        centerPanel.add(usernameText);
-        centerPanel.add(passwordLabel);
-        centerPanel.add(passwordText);
+    }
 
-        centerPanel.add(loginBtn);
-        loginBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = usernameText.getText();
-                String password = passwordText.getText();
-                if (userService.login(username, password)) {
-                    JOptionPane.showMessageDialog(null, "登录成功", "登录成功", JOptionPane.PLAIN_MESSAGE);
-                    String authority = userService.getAuthority(username);
-                    UserUI.this.dispose();
-                    new StudentUI(authority);
-                } else {
-                    new LoginFailDialog(username, password);
-                }
-            }
-        });
-
-
-        centerPanel.add(enrollBtn);
-        enrollBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new EnrollDialog(UserUI.this, userService);
-            }
-        });
-
-        centerPanel.add(checkBox);
+    private void rememberMeEvent() {
         checkBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -99,8 +72,49 @@ public class UserUI extends JFrame {
                 }
             }
         });
+    }
 
+    private void enrollEvent() {
+        enrollBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new EnrollDialog(UserUI.this, userService);
+            }
+        });
+    }
 
+    private void loginEvent() {
+        loginBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameText.getText();
+                String password = passwordText.getText();
+                new LoginFailDialog(username, password, userService, UserUI.this);
+            }
+        });
+    }
+
+    private void initializeComponentProperties() {
+        titleLabel.setFont(new Font("华文行楷", Font.PLAIN, 40));
+        titleLabel.setPreferredSize(new Dimension(0, 80));
+
+        Font other = new Font("楷体", Font.PLAIN, 20);
+        loginBtn.setFont(other);
+        enrollBtn.setFont(other);
+
+        usernameText.setPreferredSize(new Dimension(250, 30));
+        passwordText.setPreferredSize(new Dimension(250, 30));
+
+        centerPanel.add(usernameLabel);
+        centerPanel.add(usernameText);
+        centerPanel.add(passwordLabel);
+        centerPanel.add(passwordText);
+        centerPanel.add(loginBtn);
+        centerPanel.add(enrollBtn);
+        centerPanel.add(checkBox);
+    }
+
+    private void initLayout(Container container) {
         //弹簧布局
         //usernameLabel
         Spring childWith = Spring.sum(Spring.sum(Spring.width(usernameLabel)
@@ -135,8 +149,9 @@ public class UserUI extends JFrame {
 
         container.add(titleLabel, BorderLayout.NORTH);
         container.add(centerPanel, BorderLayout.CENTER);
+    }
 
-
+    private void initFrame() {
         URL resource = UserUI.class.getClassLoader().getResource("show.jpg");
         Image image = null;
         if (resource != null) {
@@ -144,13 +159,11 @@ public class UserUI extends JFrame {
         }
         setIconImage(image);
 
-
         setSize(600, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
-
     }
 
 

@@ -16,6 +16,7 @@ public class Main {
 
     static {
         JdbcUtil.getConnection();
+        JdbcUtil.commitAndClose();
     }
 
     public static void main(String[] args) {
