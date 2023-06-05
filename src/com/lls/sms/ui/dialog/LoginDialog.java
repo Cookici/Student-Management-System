@@ -1,7 +1,9 @@
 package com.lls.sms.ui.dialog;
+
 import com.lls.sms.service.UserService;
 import com.lls.sms.ui.StudentUI;
 import com.lls.sms.ui.UserUI;
+import com.lls.sms.utils.MD5Util;
 import com.mysql.cj.util.StringUtils;
 
 import javax.swing.*;
@@ -18,7 +20,7 @@ import javax.swing.*;
 
 public class LoginDialog extends JOptionPane {
 
-    public LoginDialog(String username, String password, UserService userService, UserUI userUi){
+    public LoginDialog(String username, String password, UserService userService, UserUI userUi) {
 
         if (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(password)) {
             JOptionPane.showMessageDialog(null, "用户名和密码不能为空", "登陆失败", JOptionPane.ERROR_MESSAGE);

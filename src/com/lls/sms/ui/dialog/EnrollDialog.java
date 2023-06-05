@@ -2,6 +2,7 @@ package com.lls.sms.ui.dialog;
 
 import com.lls.sms.service.UserService;
 import com.lls.sms.ui.UserUI;
+import com.lls.sms.utils.MD5Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -95,7 +96,9 @@ public class EnrollDialog extends JDialog {
                     JOptionPane.showMessageDialog(null, "密码不符合规则", "注册失败", JOptionPane.ERROR_MESSAGE);
                 } else {
                     if (userService.usernameIfExist(usernameText.getText())) {
-                        userService.enroll(usernameText.getText(), passwordText.getText(), "user");
+                        String password = passwordText.getText();
+                        String passwordEncrypt = MD5Util.convertMd5(MD5Util.md5(password));
+                        userService.enroll(usernameText.getText(), passwordEncrypt, "user");
                         JOptionPane.showMessageDialog(null, "注册成功", "注册成功", JOptionPane.PLAIN_MESSAGE);
                         log.info(usernameText.getText() + "," + passwordText.getText() + "注册成功");
                     } else {
@@ -116,7 +119,9 @@ public class EnrollDialog extends JDialog {
                 } else {
                     if (userService.usernameIfExist(usernameText.getText())) {
                         if ("lrh-ldw-syy".equals(vipText.getText())) {
-                            userService.enroll(usernameText.getText(), passwordText.getText(), "admin");
+                            String password = passwordText.getText();
+                            String passwordEncrypt = MD5Util.convertMd5(MD5Util.md5(password));
+                            userService.enroll(usernameText.getText(), passwordEncrypt, "admin");
                             log.info(usernameText.getText() + "," + passwordText.getText() + "注册成功");
                             JOptionPane.showMessageDialog(null, "注册成功", "注册成功", JOptionPane.PLAIN_MESSAGE);
                         } else {

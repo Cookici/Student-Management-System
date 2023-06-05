@@ -5,6 +5,7 @@ import com.lls.sms.dao.impl.UserDaoImpl;
 import com.lls.sms.entity.User;
 import com.lls.sms.service.UserService;
 import com.lls.sms.utils.JdbcUtil;
+import com.lls.sms.utils.MD5Util;
 
 
 /**
@@ -48,7 +49,8 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
         JdbcUtil.commitAndClose();
-        return password.equals(user.getPassword());
+        String passwordDecrypt = MD5Util.convertMd5(user.getPassword());
+        return MD5Util.md5(password).equals(passwordDecrypt);
     }
 
     @Override
