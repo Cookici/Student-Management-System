@@ -456,7 +456,6 @@ public class StudentUI extends JFrame {
     public String getSelectText(JPanel jPanel) {
         StringBuilder info = new StringBuilder();
         //通过面板属性名获取到该面板上的所有组件
-        System.out.println(info);
         for (Component c : jPanel.getComponents()) {
             if (c instanceof JRadioButton) {
                 if (((JRadioButton) c).isSelected()) {
