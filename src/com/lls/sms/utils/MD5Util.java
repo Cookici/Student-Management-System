@@ -38,13 +38,14 @@ public class MD5Util {
     /**
      * 可逆的的加密解密方法；两次是解密，一次是加密
      */
-    public static String convertMd5(String inStr){
+    public static String convertMd5(String inStr) {
 
         char[] a = inStr.toCharArray();
-        for (int i = 0; i < a.length; i++){
+        for (int i = 0; i < a.length; i++) {
             a[i] = (char) (a[i] ^ 't');
         }
         return new String(a);
+
 
     }
 

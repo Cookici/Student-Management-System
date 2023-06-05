@@ -49,8 +49,12 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
         JdbcUtil.commitAndClose();
-        String passwordDecrypt = MD5Util.convertMd5(user.getPassword());
-        return MD5Util.md5(password).equals(passwordDecrypt);
+        String passwordByUsername = user.getPassword();
+        if (passwordByUsername != null) {
+            String passwordDecrypt = MD5Util.convertMd5(passwordByUsername);
+            return MD5Util.md5(password).equals(passwordDecrypt);
+        }
+        return false;
     }
 
     @Override
