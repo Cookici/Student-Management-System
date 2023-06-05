@@ -16,9 +16,9 @@ import javax.swing.*;
  * @Date: 2023/5/31 15:20
  */
 
-public class LoginFailDialog extends JOptionPane {
+public class LoginDialog extends JOptionPane {
 
-    public LoginFailDialog(String username, String password, UserService userService,UserUI userUi){
+    public LoginDialog(String username, String password, UserService userService, UserUI userUi){
 
         if (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(password)) {
             JOptionPane.showMessageDialog(null, "用户名和密码不能为空", "登陆失败", JOptionPane.ERROR_MESSAGE);

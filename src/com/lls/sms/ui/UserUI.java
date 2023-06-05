@@ -4,7 +4,7 @@ package com.lls.sms.ui;
 import com.lls.sms.service.UserService;
 import com.lls.sms.service.impl.UserServiceImpl;
 import com.lls.sms.ui.dialog.EnrollDialog;
-import com.lls.sms.ui.dialog.LoginFailDialog;
+import com.lls.sms.ui.dialog.LoginDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,7 +89,7 @@ public class UserUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = usernameText.getText();
                 String password = passwordText.getText();
-                new LoginFailDialog(username, password, userService, UserUI.this);
+                new LoginDialog(username, password, userService, UserUI.this);
             }
         });
     }
