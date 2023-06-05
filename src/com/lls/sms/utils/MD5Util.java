@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
  * @Package: com.lls.sms.utils
  * @ClassName: MD5Util
  * @Author: 63283
- * @Description: TODO
+ * @Description: 加密功能
  * @Date: 2023/6/5 14:45
  */
 
